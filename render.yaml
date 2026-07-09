@@ -1,0 +1,33 @@
+# =====================================================================
+#  Blueprint de Render — Tablero de Control API
+#  Sube la carpeta backend/ a un repositorio de GitHub y, en Render,
+#  usa "New + → Blueprint" apuntando a ese repo. Render leerá este archivo.
+#  Los valores con `sync: false` se capturan en el panel (son secretos).
+# =====================================================================
+services:
+  - type: web
+    name: tablero-control-api
+    runtime: node
+    plan: free
+    # migrate.js es idempotente (CREATE ... IF NOT EXISTS), correrlo en cada
+    # arranque es seguro y deja la base lista sin pasos manuales.
+    buildCommand: npm install
+    startCommand: node scripts/migrate.js && node src/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: DATABASE_URL      # cadena de Neon/Render (postgres://...:5432/db?sslmode=require)
+        sync: false
+      - key: JWT_SECRET        # Render genera un secreto fuerte automáticamente
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 8h
+      - key: CORS_ORIGIN       # dominio EXACTO del frontend, con https://
+        sync: false
+      - key: ADMIN_NOMBRE
+        value: Administrador
+      - key: ADMIN_EMAIL       # correo del super admin inicial
+        sync: false
+      - key: ADMIN_PASSWORD    # contraseña fuerte del super admin
+        sync: false

@@ -1,0 +1,18 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno (NUNCA subir secretos al repo)
+.env
+.env.*
+!.env.example
+!.env.cloud.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
