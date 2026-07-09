@@ -12,7 +12,7 @@ services:
     # migrate.js es idempotente (CREATE ... IF NOT EXISTS), correrlo en cada
     # arranque es seguro y deja la base lista sin pasos manuales.
     buildCommand: npm install
-    startCommand: node scripts/migrate.js && node src/server.js
+    startCommand: node scripts/migrate.js && node scripts/seed-admin.js && node src/server.js
     healthCheckPath: /api/health
     envVars:
       - key: NODE_VERSION
