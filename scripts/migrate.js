@@ -3,10 +3,25 @@ const fs = require('fs');
 const path = require('path');
 const db = require('../src/db');
 
+// Esquemas a aplicar, en orden. Todos son idempotentes.
+const ARCHIVOS = [
+  '../db/schema.sql',        // tablero de control (base)
+  '../db/schema-boit.sql',   // portal BOIT: catálogo, pedidos, entregables, pagos
+  '../db/seed-catalogo.sql', // catálogo inicial de servicios (no pisa precios editados)
+];
+
 (async () => {
   try {
-    const sql = fs.readFileSync(path.join(__dirname, '../db/schema.sql'), 'utf8');
-    await db.pool.query(sql);
+    for (const rel of ARCHIVOS) {
+      const ruta = path.join(__dirname, rel);
+      if (!fs.existsSync(ruta)) {
+        console.log('· Omitido (no existe):', rel);
+        continue;
+      }
+      const sql = fs.readFileSync(ruta, 'utf8');
+      await db.pool.query(sql);
+      console.log('· Aplicado:', rel);
+    }
     console.log('Esquema aplicado correctamente.');
   } catch (err) {
     console.error('Error al aplicar el esquema:', err.message);
