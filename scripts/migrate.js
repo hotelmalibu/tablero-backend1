@@ -3,11 +3,12 @@ const fs = require('fs');
 const path = require('path');
 const db = require('../src/db');
 
-// Esquemas a aplicar, en orden. Todos son idempotentes.
+// Esquemas y semillas a aplicar, en orden. Todos son idempotentes.
 const ARCHIVOS = [
-  '../db/schema.sql',        // tablero de control (base)
-  '../db/schema-boit.sql',   // portal BOIT: catálogo, pedidos, entregables, pagos
-  '../db/seed-catalogo.sql', // catálogo inicial de servicios (no pisa precios editados)
+  '../db/schema.sql',                  // tablero de control (base)
+  '../db/schema-boit.sql',             // portal BOIT: catálogo, pedidos, entregables, pagos
+  '../db/seed-catalogo.sql',           // catálogo: documentos y proyectos
+  '../db/seed-catalogo-servicios.sql', // catálogo: servicios de servicios.html
 ];
 
 (async () => {
