@@ -12,7 +12,7 @@ const anthropic = new Anthropic();
 
 // Modelo de Claude. claude-opus-4-8 es el más capaz.
 // Para abaratar el chat de alto tráfico puedes usar 'claude-haiku-4-5' (~5x más barato).
-const MODEL = 'claude-opus-4-8';
+const MODEL = process.env.IA_MODEL || 'claude-haiku-4-5';
 
 // Las noticias se generan (con búsqueda web) como máximo UNA vez cada 30 días
 // para TODOS los visitantes. El resto del mes se sirven gratis desde la base de datos.
