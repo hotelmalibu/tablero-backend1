@@ -37,6 +37,7 @@ app.get('/api/health', (req, res) => res.json({ ok: true, servicio: 'boit-api' }
 // ---------------------------------------------------------------------
 app.use('/api/assistant', require('./routes/assistant'));   // chatbot público
 app.use('/api', require('./routes/pagos'));                 // /pagos/*, /descargas/* (auth por ruta)
+app.use('/api', require('./routes/ia'));                    // IA: generar/aprobar docs + /entregables/:id/documento (público con token)
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/clients', require('./routes/clients'));
