@@ -20,6 +20,8 @@ async function asegurarColumnas() {
   await db.query('ALTER TABLE entregable ADD COLUMN IF NOT EXISTS contenido text');
   await db.query('ALTER TABLE entregable ADD COLUMN IF NOT EXISTS estado_ia text');
   await db.query('ALTER TABLE entregable ADD COLUMN IF NOT EXISTS actividad_id uuid REFERENCES actividad(id) ON DELETE SET NULL');
+  // El documento de IA no nace con URL (se calcula tras el INSERT). Permitir nulo.
+  await db.query('ALTER TABLE entregable ALTER COLUMN url DROP NOT NULL').catch(function () {});
   colsListas = true;
 }
 
