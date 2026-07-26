@@ -9,6 +9,7 @@ const ARCHIVOS = [
   '../db/schema-boit.sql',             // portal BOIT: catálogo, pedidos, entregables, pagos
   '../db/seed-catalogo.sql',           // catálogo: documentos y proyectos
   '../db/seed-catalogo-servicios.sql', // catálogo: servicios de servicios.html
+  '../db/seed-catalogo-agentes.sql',   // catálogo: agentes de IA y automatización (nuevos, van primero)
 ];
 
 (async () => {
