@@ -9,7 +9,7 @@ const { AppError, asyncHandler, authenticate } = require('../middleware');
 const router = express.Router();
 const anthropic = new Anthropic();
 
-const MODEL = 'claude-opus-4-8';
+const MODEL = process.env.IA_MODEL || 'claude-haiku-4-5';
 const ADMINES = ['super_admin', 'lider'];
 const INTERNOS = ['super_admin', 'lider', 'gestor', 'investigador'];
 
