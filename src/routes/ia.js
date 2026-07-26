@@ -9,7 +9,9 @@ const { AppError, asyncHandler, authenticate } = require('../middleware');
 const router = express.Router();
 const anthropic = new Anthropic();
 
-const MODEL = process.env.IA_MODEL || 'claude-haiku-4-5';
+// Modelo para generar documentos. claude-haiku-4-5 funciona con cualquier cuenta
+// y es económico. Se puede subir a un modelo superior con la variable IA_MODEL.
+const MODEL = process.env.IA_MODEL || 'claude-haiku-4-5-20251001';
 const ADMINES = ['super_admin', 'lider'];
 const INTERNOS = ['super_admin', 'lider', 'gestor', 'investigador'];
 
@@ -97,7 +99,9 @@ Empieza directamente con el título en formato # y desarrolla todo el contenido.
       [texto, entregableId]);
   } catch (err) {
     console.error('Generación IA:', err.status || '', err.message);
-    await db.query("UPDATE entregable SET estado_ia = 'error' WHERE id = $1", [entregableId]);
+    // Guardamos el detalle del error para poder diagnosticarlo desde el tablero.
+    const detalle = ('[DIAGNÓSTICO] ' + (err.status || '') + ' ' + (err.name || '') + ': ' + (err.message || '')).slice(0, 1000);
+    await db.query("UPDATE entregable SET estado_ia = 'error', contenido = $2 WHERE id = $1", [entregableId, detalle]);
   }
 }
 
